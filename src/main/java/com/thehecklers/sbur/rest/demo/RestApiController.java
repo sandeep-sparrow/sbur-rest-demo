@@ -4,8 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,13 +15,6 @@ public class RestApiController {
 
     public RestApiController(ICoffeeRepository iCoffeeRepository){
         this.iCoffeeRepository = iCoffeeRepository;
-
-        this.iCoffeeRepository.saveAll(List.of(
-                new Coffee("Cafe Cereza"),
-                new Coffee("Cafe Ganador"),
-                new Coffee("Cafe Lareno"),
-                new Coffee("Cate Tres Pont as")
-        ));
     }
 
     @GetMapping
@@ -67,8 +58,8 @@ public class RestApiController {
         return (coffeeIndex == -1) ? new ResponseEntity<>(postCoffee(coffee), HttpStatus.CREATED) :
                                      new ResponseEntity<>(coffee, HttpStatus.OK);
 */
-        return (!iCoffeeRepository.existsById(id)) ? new ResponseEntity<>(iCoffeeRepository.save(coffee), HttpStatus.CREATED)
-                : new ResponseEntity<>(iCoffeeRepository.save(coffee), HttpStatus.OK);
+        return (iCoffeeRepository.existsById(id)) ? new ResponseEntity<>(iCoffeeRepository.save(coffee), HttpStatus.OK)
+                : new ResponseEntity<>(iCoffeeRepository.save(coffee), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
