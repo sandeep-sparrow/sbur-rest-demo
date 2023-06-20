@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.RestController
 class DroidController(private val droid: Droid) {
 
     @GetMapping
-    fun getDroidInformation() = "droid id: $droid.id, description: ${droid.description}"
+    fun getDroidInformation() = "droid id: ${droid.id}, description: ${droid.description}"
 }
