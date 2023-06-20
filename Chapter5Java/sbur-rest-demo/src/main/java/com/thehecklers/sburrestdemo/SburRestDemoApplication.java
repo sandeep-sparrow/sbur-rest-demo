@@ -2,6 +2,8 @@ package com.thehecklers.sburrestdemo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootApplication
+@ConfigurationPropertiesScan
 public class SburRestDemoApplication {
 
 	public static void main(String[] args) {
@@ -44,8 +47,62 @@ class DataLoader {
 }
 
 @RestController
-@RequestMapping("/coffees")
+@RequestMapping("/api/greeting")
+class GreetingController{
+
+	private final Greeting greeting;
+
+/* Replaced this with Properties defined to typeSafe POJO class.
+	@Value("${greeting.name}")
+	private String name;
+
+	@Value("${greeting.coffee}")
+	private String coffee;
+*/
+
+	public GreetingController(Greeting greeting) {
+		this.greeting = greeting;
+	}
+
+	@GetMapping
+	public String getGreeting(){
+		return greeting.getName();
+	}
+
+	@GetMapping("/coffee")
+	public String getCoffeeMessage(){
+		return greeting.getCoffee();
+	}
+
+}
+
+@ConfigurationProperties(prefix = "greeting")
+class Greeting{
+
+	private String name;
+	private String coffee;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCoffee() {
+		return coffee;
+	}
+
+	public void setCoffee(String coffee) {
+		this.coffee = coffee;
+	}
+}
+
+@RestController
+@RequestMapping("/api/coffees")
 class RestApiDemoController {
+
 	private final CoffeeRepository coffeeRepository;
 
 	public RestApiDemoController(CoffeeRepository coffeeRepository) {
