@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.mhecklers</groupId>
-    <artifactId>spring-mvc</artifactId>
+    <artifactId>aircraft-positions</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-mvc</name>
     <description>spring-mvc</description>
